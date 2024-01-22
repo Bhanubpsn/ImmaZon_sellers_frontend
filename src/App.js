@@ -1,9 +1,10 @@
 import './App.css';
 import Login from './components/Auth/Login';
 import Signup from './components/Auth/Signup';
-import { Myproducts } from './components/Myproducts';
+import { Myproducts } from './components/TopbarOptions/Myproducts';
 import { Topbar } from './components/Topbar';
 import React,{useState} from 'react';
+import ProductState from './components/context/MyproductsState';
 import {
   BrowserRouter as Router,
   Routes,
@@ -19,13 +20,14 @@ function App() {
   return (
     <>
       
+      <ProductState>
 
       <Router>
       <LoadingBar
             height={3}
             color='#f5c011'
             progress={progress}
-        />
+            />
         <Topbar/>
         <div>
           <Routes>
@@ -35,6 +37,7 @@ function App() {
           </Routes>
         </div>
       </Router>
+      </ProductState>
 
     </>
   );

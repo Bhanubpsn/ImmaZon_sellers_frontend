@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate} from 'react-router-dom'
 
 const Signup = (props) => {
 
@@ -34,9 +34,11 @@ const Signup = (props) => {
             if (rememberMe) {
                 // If the "Remember me" checkbox is checked, store the token in local storage
                 localStorage.setItem('token', json.authtoken);
+                localStorage.setItem('id', json.sellerid);
             }
             else{
                 sessionStorage.setItem('token', json.authtoken);
+                sessionStorage.setItem('id', json.sellerid);
             }
             navigate("/");
             window.location.reload()

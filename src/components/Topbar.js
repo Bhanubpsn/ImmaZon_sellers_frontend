@@ -14,7 +14,9 @@ export const Topbar = () => {
 
     const handleSignOut = () => {
         localStorage.removeItem('token');
+        localStorage.removeItem('id');
         sessionStorage.removeItem('token');
+        sessionStorage.removeItem('id');
         navigate('/login');
     }
 
