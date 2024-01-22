@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 
-const Login = (props) => {
+const Signup = (props) => {
 
-    const [credentials, setCredentials] = useState({ email: "", password: "" })
+    const [credentials, setCredentials] = useState({shopname: "", email: "", password: "" })
     let navigate = useNavigate();
 
     const [rememberMe, setRememberMe] = useState(true); // Initial state is set to `true`
@@ -14,14 +14,15 @@ const Login = (props) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log(credentials.shopname, credentials.email, credentials.password)
         let message = document.getElementById('message');
         props.setprogress(30);
-        const response = await fetch("http://localhost:5000/api/auth/login", {
+        const response = await fetch("http://localhost:5000/api/auth/createseller", {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ email: credentials.email, password: credentials.password })
+            body: JSON.stringify({shopName: credentials.shopname, email: credentials.email, password: credentials.password })
         });
         props.setprogress(50);
         const json = await response.json();
@@ -39,7 +40,6 @@ const Login = (props) => {
             }
             navigate("/");
             window.location.reload()
-            console.log("Logged In");
             // props.showAlert("Logged In","success");
         }
         else {
@@ -60,7 +60,7 @@ const Login = (props) => {
                     <div className="container">
                         <div className="row gx-lg-5 align-items-center">
                             <div className="bi">
-                                <img src='https://firebasestorage.googleapis.com/v0/b/immazon-83e9e.appspot.com/o/login-removebg-preview.png?alt=media&token=c124c472-351b-44e2-b236-44c7954c6c95' width="150" height="80" alt='poor connection'/>
+                                <img src='https://firebasestorage.googleapis.com/v0/b/immazon-83e9e.appspot.com/o/login-removebg-preview.png?alt=media&token=c124c472-351b-44e2-b236-44c7954c6c95' width="150" height="80" alt="poor connnection"/>
                             </div>
                             
                             <div className="col-lg-6 mb-5 mb-lg-0">
@@ -74,6 +74,11 @@ const Login = (props) => {
                                 <div className="card">
                                     <div className="card-body py-5 px-md-5">
                                         <form onSubmit={handleSubmit}>
+                                            <div className="form-outline mb-4">
+                                                <input type="text" className="form-control" value={credentials.shopname} onChange={onChange} id="shopname" name="shopname" aria-describedby="emailHelp" />
+                                                <label className="form-label" htmlFor="form3Example2">Shop Name</label>
+                                            </div>
+
                                             <div className="form-outline mb-4">
                                                 <input type="email" className="form-control" value={credentials.email} onChange={onChange} id="email" name="email" aria-describedby="emailHelp" />
                                                 <label className="form-label" htmlFor="form3Example3">Email address</label>
@@ -94,15 +99,15 @@ const Login = (props) => {
                                             </div>
 
                                             <button type="submit" className="btn btn-primary btn-block mb-4">
-                                                Log In
+                                                Sign Up
                                             </button>
                                             <div className="container d-flex justify-content-center">
-                                                <p id="message" style={{'color' : 'red'}} hidden>Wrong Credentials</p>
+                                                <p id="message" style={{'color' : 'red'}} hidden>Something Went Wrong</p>
                                             </div>
                                         </form>
                                         <div >
-                                                Don't Have an Account? 
-                                                <a href='/signup'>Sign Up</a>
+                                                Already Have an Account? 
+                                                <a href='/login' id='login'> Log In</a>
                                         </div>
                                     </div>
                                 </div>
@@ -120,4 +125,4 @@ const Login = (props) => {
     )
 }
 
-export default Login
+export default Signup

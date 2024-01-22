@@ -1,5 +1,6 @@
 import './App.css';
 import Login from './components/Auth/Login';
+import Signup from './components/Auth/Signup';
 import { Myproducts } from './components/Myproducts';
 import { Topbar } from './components/Topbar';
 import React,{useState} from 'react';
@@ -30,6 +31,7 @@ function App() {
           <Routes>
             <Route exact path="/" element={<Myproducts setprogress={setprogress}/>} />
             <Route exact path="/login" element={<Login setprogress={setprogress}/>} />
+            <Route exact path="/signup" element={<Signup setprogress={setprogress}/> }/>
           </Routes>
         </div>
       </Router>
