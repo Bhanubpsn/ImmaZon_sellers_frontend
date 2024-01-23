@@ -16,7 +16,7 @@ export const Sidebar = () => {
                     </a>
                 </li>
                 <li className="nav-item">
-                    <a href="/" className="nav-link py-3 border-end" title="" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Dashboard">
+                    <a href="/myorders" className="nav-link py-3 border-end" title="" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Dashboard">
                         <div className="bi" width="24" height="24" role="img" aria-label="Dashboard">
                             <FontAwesomeIcon icon={faTruckFast} size="lg" />
                         </div>

@@ -1,15 +1,15 @@
 import React, { useState} from 'react';
-import ProductContext from './MyproductsContext.js';
+import OrderContext from './MyordersContext.js';
 
-const ProductState = (props) =>{
+const OrderState = (props) =>{
 
     const url = 'http://localhost:5000';
-    const productsInitial = [];
+    const ordersInitial = [];
 
-    const [products, setproducts] = useState(productsInitial);
+    const [orders, setorders] = useState(ordersInitial);
 
-    //GET all seller's products
-    const getMyproducts = async() => {
+    //GET all seller's orders
+    const getMyorders = async() => {
         props.setprogress(20);
         let sellerid;
         if (localStorage.getItem('id')) {
@@ -18,7 +18,7 @@ const ProductState = (props) =>{
             sellerid = sessionStorage.getItem('id');
         }
         props.setprogress(50);
-        const response = await fetch(`${url}/api/products/getmyproducts/${sellerid}`,{
+        const response = await fetch(`${url}/api/orders/getmyorders/${sellerid}`,{
             method: 'GET',
             headers:{
                 'Content-Type': 'application/json',
@@ -27,19 +27,19 @@ const ProductState = (props) =>{
         props.setprogress(70);
 
         const json = await response.json();
-        console.log(json[0]);
+        console.log(json);
         // console.log(typeof(json[0]));
 
-        setproducts(json[0]);
+        setorders(json);
         props.setprogress(100);
     }
 
     return (
-        <ProductContext.Provider value={{products, getMyproducts}}>
+        <OrderContext.Provider value={{orders, getMyorders}}>
             {props.children}
-        </ProductContext.Provider>
+        </OrderContext.Provider>
     )
 
 }
 
-export default ProductState;
+export default OrderState;
