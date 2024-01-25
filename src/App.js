@@ -13,6 +13,7 @@ import {
 } from "react-router-dom";
 import LoadingBar from 'react-top-loading-bar'
 import { Myorders } from './components/TopbarOptions/Myorders';
+import Addproduct from './components/TopbarOptions/Addproduct';
 
 function App() {
 
@@ -35,6 +36,7 @@ function App() {
           <Routes>
             <Route exact path="/" element={<Myproducts setprogress={setprogress}/>} />
             <Route exact path="/myorders" element={<Myorders setprogress={setprogress}/>} />
+            <Route exact path="/addproduct" element={<Addproduct setprogress={setprogress}/>} />
             <Route exact path="/login" element={<Login setprogress={setprogress}/>} />
             <Route exact path="/signup" element={<Signup setprogress={setprogress}/> }/>
           </Routes>

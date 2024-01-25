@@ -27,7 +27,7 @@ const OrderState = (props) =>{
         props.setprogress(70);
 
         const json = await response.json();
-        console.log(json);
+        // console.log(json);
         // console.log(typeof(json[0]));
 
         setorders(json);
