@@ -37,7 +37,7 @@ export const Sidebar = () => {
                     </a>
                 </li>
                 <li className="nav-item">
-                    <a href="/" className={`nav-link ${addproduct} py-3 `} title="" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Orders">
+                    <a href="/addproduct" className={`nav-link ${addproduct} py-3 `} title="" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Orders">
                         <div className="bi" width="24" height="24" role="img" aria-label="Orders">
                             <FontAwesomeIcon icon={faCartPlus} size="lg" />
                         </div>

@@ -8,10 +8,10 @@ const Colorcirle = (props)=>{
         <span className="circle mx-2" style={{
             "width": "30px",
             "height": "30px",
-            "background-color": color, 
-            "border-radius":" 50%",
+            "backgroundColor": color, 
+            "borderRadius":" 50%",
             "display": "inline-block", 
-            "vertical-align": "middle"
+            "verticalAlign": "middle"
           }}></span>
     );
 }
