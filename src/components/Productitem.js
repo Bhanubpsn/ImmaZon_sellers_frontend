@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import ProductContext from './context/MyproductsContext';
 import Colorcirle from './Colorcircle';
+import Sizecirle from './Sizecircle';
 
 const Productitem = (props) => {
   const context = useContext(ProductContext);
@@ -13,7 +14,7 @@ const Productitem = (props) => {
   return (
     <div className='my-1 mx-2'>
       <div className="card border-success mb-3" style={{ "width": "18rem" }}>
-        <img src={product.image} className="card-img-top" alt="..." style={{ height: "200px", objectFit: "cover" }}/>
+        <img src={product.image} className="card-img-top" alt="No Preview of the product" style={{ height: "200px", objectFit: "cover" }}/>
         <div className="card-body">
           <h5 className="card-title">{product.productname}</h5>
           <p className="card-text">{product._id}</p>
@@ -30,7 +31,14 @@ const Productitem = (props) => {
             }
             
           </li>
-          <li className="list-group-item">Size : {product.size}</li>
+          <li className="list-group-item">Size : 
+            <div className="container my-2" style={{ display: 'flex', alignItems: 'center' }}>
+              {product.size && product.size.map((sz) => {
+                return <Sizecirle key={sz} size={sz}/>
+                  
+              })} 
+              </div>
+            </li>
         </ul>
         <div className="card-body">
           <button type="button" className="btn btn-success mx-1">Show Details</button>

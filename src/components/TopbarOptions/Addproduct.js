@@ -9,14 +9,15 @@ const Addproduct = (props) => {
 
     const [currColor, setcurrColor] = useState('#000000');
 
+    const [size, setsize] = useState([]);
 
+
+    
     const [productdetail, setproductdetail] = useState({
-        "productname" : "",
-        "productprice" : 0,
-        "productdescription" : "",
-        "productsize" : [],
-        "productcolor" : [],
-        "producttag" : "",
+        productname : "",
+        productprice : 0,
+        productdescription : "",
+        producttag : "",
     })
 
     const handleClick = () => {
@@ -25,6 +26,37 @@ const Addproduct = (props) => {
         setallcolors(temp);
         // console.log(allcolors);
         setcurrColor(color);
+    }
+
+    const handleSubmit= async(e) => {
+        e.preventDefault();
+        // console.log(productdetail);
+        // console.log(allcolors);
+        // console.log(size);
+
+        const response = await fetch('http://localhost:5000/api/products/addmyproduct',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'sellerid' : sessionStorage.getItem('id') || localStorage.getItem('id'),
+            },
+            body: JSON.stringify({
+                productname: productdetail.productname,
+                price: productdetail.productprice,
+                description: productdetail.productdescription,
+                tags: [productdetail.producttag],
+                size: size,
+                color: allcolors,
+
+            })
+        });
+
+        const product = await response.json();
+        console.log(product);
+    }
+
+    const onChange = (e) => {
+        setproductdetail({ ...productdetail, [e.target.name]: e.target.value });
     }
 
     useEffect(() => {
@@ -49,54 +81,73 @@ const Addproduct = (props) => {
                 }}
             />
             <Sidebar />
-            <form className="row g-3">
+            <form className="row g-3" onSubmit={handleSubmit}>
                 <div className="col-md-6">
                     <label htmlFor="inputEmail4" className="form-label">Product Name</label>
-                    <input type="text" className="form-control" id="productname" />
+                    <input type="text" className="form-control" id="productname" name="productname" value={productdetail.productname} onChange={onChange}/>
                 </div>
                 <div className="col-md-6">
                     <label htmlFor="inputPassword4" className="form-label">Price</label>
-                    <input type="number" className="form-control" id="price" />
+                    <input type="number" className="form-control" id="productprice" name="productprice" value={productdetail.productprice} onChange={onChange}/>
                 </div>
                 <div className="col-12">
                     <label htmlFor="inputAddress" className="form-label">Description</label>
-                    <input type="text" className="form-control" id="description" placeholder="Write a little about the product.." />
+                    <input type="text" className="form-control" id="productdescription" placeholder="Write a little about the product.." name="productdescription" value={productdetail.productdescription} onChange={onChange}/>
                 </div>
                 <div className="col-md-4">
                     <label htmlFor="inputState" className="form-label">Add Tags</label>
-                    <select id="tags" className="form-select">
-                        <option value={"..."}>Electronics</option>
-                        <option>Clothing</option>
-                        <option>Computers</option>
-                        <option>Art</option>
-                        <option>Sports</option>
-                        <option>Games</option>
+                    <select id="producttag" name="producttag" className="form-select" onChange={onChange}>
+                        <option>...</option>
+                        <option value={"Electronics"}>Electronics</option>
+                        <option value={"Clothing"}>Clothing</option>
+                        <option value={"Computers"}>Computers</option>
+                        <option value={"Art"}>Art</option>
+                        <option value={"Sports"}>Sports</option>
+                        <option value={"Games"}>Games</option>
                     </select>
                 </div>
                 <div className="container my-5">
 
                     <div className="form-check form-check-inline">
-                        <input className="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" />
+                        <input className="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" onChange={()=>{
+                            size.push('XS');
+                            setsize(size);
+                        }}/>
                         <label className="form-check-label" htmlFor="inlineCheckbox1">XS</label>
                     </div>
                     <div className="form-check form-check-inline">
-                        <input className="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" />
+                        <input className="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" onChange={()=>{
+                            size.push('S');
+                            setsize(size);
+                        }}/>
                         <label className="form-check-label" htmlFor="inlineCheckbox2">S</label>
                     </div>
                     <div className="form-check form-check-inline">
-                        <input className="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" />
+                        <input className="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" onChange={()=>{
+                            size.push('M');
+                            setsize(size);
+                        }}/>
                         <label className="form-check-label" htmlFor="inlineCheckbox3">M</label>
                     </div>
                     <div className="form-check form-check-inline">
-                        <input className="form-check-input" type="checkbox" id="inlineCheckbox4" value="option4" />
+                        <input className="form-check-input" type="checkbox" id="inlineCheckbox4" value="option4" onChange={()=>{
+                            size.push('L');
+                            setsize(size);
+                        }}/>
                         <label className="form-check-label" htmlFor="inlineCheckbox4">L</label>
                     </div>
                     <div className="form-check form-check-inline">
-                        <input className="form-check-input" type="checkbox" id="inlineCheckbox5" value="option5" />
+                        <input className="form-check-input" type="checkbox" id="inlineCheckbox5" value="option5" onChange={()=>{
+                            size.push('XL');
+                            setsize(size);
+                        }}/>
                         <label className="form-check-label" htmlFor="inlineCheckbox5">XL</label>
                     </div>
                     <div className="form-check form-check-inline">
-                        <input className="form-check-input" type="checkbox" id="inlineCheckbox6" value="option6" />
+                        <input className="form-check-input" type="checkbox" id="inlineCheckbox6" value="option6" onChange={()=>{
+                            size.push('XXL');
+                            setsize(size);
+                        }}/>
                         <label className="form-check-label" htmlFor="inlineCheckbox6">XXL</label>
                     </div>
 
@@ -124,6 +175,8 @@ const Addproduct = (props) => {
                     <input type="file" className="form-control" id="inputGroupFile02" />
                     <label className="input-group-text" htmlFor="inputGroupFile02">Upload</label>
                 </div>
+
+                <button type="submit" className="btn btn-success">Submit</button>
             </form>
         </div>
     );
