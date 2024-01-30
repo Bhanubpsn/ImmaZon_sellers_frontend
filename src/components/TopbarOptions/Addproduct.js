@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Sidebar } from "../Sidebar";
 import Colorcirle from "../Colorcircle";
+import { useNavigate} from 'react-router-dom';
 
 const Addproduct = (props) => {
-
+    let navigate = useNavigate();
     const [color, setcolor] = useState('#000000');
     const [allcolors, setallcolors] = useState([]);
 
@@ -11,7 +12,7 @@ const Addproduct = (props) => {
 
     const [size, setsize] = useState([]);
 
-
+    const [file, setfile] = useState(null);
     
     const [productdetail, setproductdetail] = useState({
         productname : "",
@@ -34,6 +35,13 @@ const Addproduct = (props) => {
         // console.log(allcolors);
         // console.log(size);
 
+        let fileInput = document.getElementById('productimage');
+
+        if (fileInput.files.length > 0) {
+            setfile(fileInput.files[0]);               
+            // console.log(file);
+        }
+
         const response = await fetch('http://localhost:5000/api/products/addmyproduct',{
             method: 'POST',
             headers: {
@@ -53,6 +61,41 @@ const Addproduct = (props) => {
 
         const product = await response.json();
         console.log(product);
+        console.log(file);
+
+        if (product.success && file) {
+
+            const formData = new FormData();
+            formData.append('image', file);
+
+            const response = await fetch(`http://localhost:5000/api/products/uploadproductimage/${sessionStorage.getItem('id') || localStorage.getItem('id')}/${product.product._id}`,{
+                method: 'POST', 
+                body: formData
+            });
+
+            const finalproduct = await response.json();
+            const imageurl = finalproduct.downloadURL;
+
+            console.log(imageurl);
+
+            const response2 = await fetch(`http://localhost:5000/api/products/updatemyproduct/${product.product._id}?imageurl=${imageurl}`,{
+                method: 'PUT', 
+                headers: {
+                    authtoken: sessionStorage.getItem('token') || localStorage.getItem('token'),
+                }
+            }); 
+            
+            const productupdated = await response2.json();
+
+            console.log(productupdated);
+            navigate("/");
+            
+        }
+        else{
+            alert("Failed to upload the image");
+        }
+
+
     }
 
     const onChange = (e) => {
@@ -172,7 +215,7 @@ const Addproduct = (props) => {
                 </div>
 
                 <div className="input-group mb-3">
-                    <input type="file" className="form-control" id="inputGroupFile02" />
+                    <input  type="file" className="form-control" id="productimage" name="productimage" />
                     <label className="input-group-text" htmlFor="inputGroupFile02">Upload</label>
                 </div>
 

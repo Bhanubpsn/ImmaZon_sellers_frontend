@@ -4,7 +4,7 @@ const Sizecirle = (props)=>{
 
     const {size} = props;
 
-    return(
+    return( 
         <span className="circle mx-2" style={{
             "width": "30px",
             "height": "30px",
