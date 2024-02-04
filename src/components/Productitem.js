@@ -8,7 +8,7 @@ const Productitem = (props) => {
   const { product } = props;
 
   useEffect(() => {
-    console.log(product);
+    // console.log(product);
   }, [])
 
   return (

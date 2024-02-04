@@ -12,7 +12,7 @@ const Addproduct = (props) => {
 
     const [size, setsize] = useState([]);
 
-    const [file, setfile] = useState(null);
+    const [file, setfile] = useState({});
     
     const [productdetail, setproductdetail] = useState({
         productname : "",
@@ -29,6 +29,16 @@ const Addproduct = (props) => {
         setcurrColor(color);
     }
 
+    const handleFileChange = (e) => {
+        const fileInput = e.target;
+        if (fileInput.files.length > 0) {
+            setfile(fileInput.files[0]);
+            console.log("File present");
+            console.log(fileInput.files[0]);
+        }
+    };
+
+
     const handleSubmit= async(e) => {
         e.preventDefault();
         // console.log(productdetail);
@@ -38,7 +48,8 @@ const Addproduct = (props) => {
         let fileInput = document.getElementById('productimage');
 
         if (fileInput.files.length > 0) {
-            setfile(fileInput.files[0]);               
+            setfile(fileInput.files[0]);
+            // console.log("File present");               
             // console.log(file);
         }
 
@@ -78,17 +89,24 @@ const Addproduct = (props) => {
 
             console.log(imageurl);
 
-            const response2 = await fetch(`http://localhost:5000/api/products/updatemyproduct/${product.product._id}?imageurl=${imageurl}`,{
-                method: 'PUT', 
-                headers: {
-                    authtoken: sessionStorage.getItem('token') || localStorage.getItem('token'),
-                }
-            }); 
-            
-            const productupdated = await response2.json();
+            if(finalproduct.success){
 
-            console.log(productupdated);
-            navigate("/");
+                const response2 = await fetch(`http://localhost:5000/api/products/updatemyproduct/${product.product._id}?imageurl=${imageurl}`,{
+                    method: 'PUT', 
+                    headers: {
+                        authtoken: sessionStorage.getItem('token') || localStorage.getItem('token'),
+                    }
+                }); 
+                
+                const productupdated = await response2.json();
+    
+                console.log(productupdated);
+                navigate("/");
+            }
+            else{
+                alert("Failed to upload the image");
+            }
+
             
         }
         else{
@@ -153,42 +171,72 @@ const Addproduct = (props) => {
 
                     <div className="form-check form-check-inline">
                         <input className="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" onChange={()=>{
-                            size.push('XS');
+                            if(size.includes('XS')){
+                                size.splice(size.indexOf('XS'), 1);
+                            }
+                            else{
+                                size.push('XS');
+                            }
                             setsize(size);
                         }}/>
                         <label className="form-check-label" htmlFor="inlineCheckbox1">XS</label>
                     </div>
                     <div className="form-check form-check-inline">
                         <input className="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" onChange={()=>{
-                            size.push('S');
+                            if(size.includes('S')){
+                                size.splice(size.indexOf('S'), 1);
+                            }
+                            else{
+                                size.push('S');
+                            }
                             setsize(size);
                         }}/>
                         <label className="form-check-label" htmlFor="inlineCheckbox2">S</label>
                     </div>
                     <div className="form-check form-check-inline">
                         <input className="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" onChange={()=>{
-                            size.push('M');
+                            if(size.includes('M')){
+                                size.splice(size.indexOf('M'), 1);
+                            }
+                            else{
+                                size.push('M');
+                            }
                             setsize(size);
                         }}/>
                         <label className="form-check-label" htmlFor="inlineCheckbox3">M</label>
                     </div>
                     <div className="form-check form-check-inline">
                         <input className="form-check-input" type="checkbox" id="inlineCheckbox4" value="option4" onChange={()=>{
-                            size.push('L');
+                            if(size.includes('L')){
+                                size.splice(size.indexOf('L'), 1);
+                            }
+                            else{
+                                size.push('L');
+                            }
                             setsize(size);
                         }}/>
                         <label className="form-check-label" htmlFor="inlineCheckbox4">L</label>
                     </div>
                     <div className="form-check form-check-inline">
                         <input className="form-check-input" type="checkbox" id="inlineCheckbox5" value="option5" onChange={()=>{
-                            size.push('XL');
+                            if(size.includes('XL')){
+                                size.splice(size.indexOf('XL'), 1);
+                            }
+                            else{
+                                size.push('XL');
+                            }
                             setsize(size);
                         }}/>
                         <label className="form-check-label" htmlFor="inlineCheckbox5">XL</label>
                     </div>
                     <div className="form-check form-check-inline">
                         <input className="form-check-input" type="checkbox" id="inlineCheckbox6" value="option6" onChange={()=>{
-                            size.push('XXL');
+                            if(size.includes('XXL')){
+                                size.splice(size.indexOf('XXL'), 1);
+                            }
+                            else{
+                                size.push('XXL');
+                            }
                             setsize(size);
                         }}/>
                         <label className="form-check-label" htmlFor="inlineCheckbox6">XXL</label>
@@ -215,7 +263,7 @@ const Addproduct = (props) => {
                 </div>
 
                 <div className="input-group mb-3">
-                    <input  type="file" className="form-control" id="productimage" name="productimage" />
+                    <input  type="file" className="form-control" id="productimage" name="productimage" onChange={handleFileChange}/>
                     <label className="input-group-text" htmlFor="inputGroupFile02">Upload</label>
                 </div>
 
